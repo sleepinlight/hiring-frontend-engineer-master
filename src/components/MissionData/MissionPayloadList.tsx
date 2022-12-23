@@ -1,4 +1,5 @@
-import { Mission } from "../../interfaces/Mission.interface";
+import { useEffect, useState } from "react";
+import { Mission } from "../../shared/interfaces/Mission.interface";
 
 export interface MissionPayloadListProps {
   missions: Mission[];
@@ -7,18 +8,47 @@ export interface MissionPayloadListProps {
 const MissionPayloadList: React.FC<MissionPayloadListProps> = (
   props: MissionPayloadListProps
 ) => {
+  const [sortedMissions, setSortedMissions] = useState<Mission[]>([
+    ...props.missions,
+  ]);
+  const [ascending, setAscending] = useState<boolean>(true);
+  const [alphabetical, setAlphabetical] = useState<boolean>(true);
+
+  useEffect((): void => {
+    setSortedMissions([...props.missions]);
+  }, [props.missions]);
+
+  useEffect(() => {
+    const sortedArr = alphabetical
+      ? [...props.missions].sort()
+      : [...props.missions].sort().reverse();
+    setSortedMissions(sortedArr);
+  }, [alphabetical]);
+
+  useEffect(() => {
+    const sortedArr = [...props.missions].sort((a: Mission, b: Mission) => {
+      return ascending
+        ? a.totalMass! - b.totalMass!
+        : b.totalMass! - a.totalMass!;
+    });
+    setSortedMissions(sortedArr);
+  }, [ascending]);
+
   return (
     <table className="my-16 table-fixed">
       <thead>
-        <tr>
-          <th>Mission</th>
+        <tr className="text-left">
+          <th onClick={() => setAlphabetical(!alphabetical)}>Mission</th>
+          <th onClick={() => setAscending(!ascending)}>Total Payload Mass</th>
         </tr>
       </thead>
       <tbody>
-        {props.missions.map((mission) => {
+        {sortedMissions?.map((mission) => {
           return (
             <tr key={mission.id}>
-              <td>{mission.name}</td>
+              <td>
+                <span className="truncate ...">{mission.name}</span>
+              </td>
               <td>{mission.totalMass}</td>
             </tr>
           );
