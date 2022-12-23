@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import payloadData from "../dataset/missions.json";
 import { Mission } from "../shared/interfaces/Mission.interface";
 import { MissionPayload } from "../shared/interfaces/MissionPayload.interface";
+import { MissionColors } from "../shared/utils/colors";
 import DonutChart from "./DonutChart/DonutChart";
 import MissionPayloadList from "./MissionData/MissionPayloadList";
 import NationalityDropdown from "./NationalityDropdown/NationalityDropdown";
@@ -16,6 +17,8 @@ const PayloadCard: React.FC<PayloadCardProps> = ({}: PayloadCardProps) => {
   const [filteredMissionData, setFilteredMissionData] = useState<Mission[]>(
     payloadData.data.missions
   );
+  const [currentFilterOption, setCurrentFilterOption] =
+    useState<string>("All Nations");
 
   const calculateTotalMass = (mission: Mission): number => {
     return mission.payloads.reduce(
@@ -27,7 +30,7 @@ const PayloadCard: React.FC<PayloadCardProps> = ({}: PayloadCardProps) => {
   const parsePayloadAndSetData = (missions: Mission[]): void => {
     const foundNationalities: string[] = ["All Nations"];
     const missionsWithoutNullPayloads = [
-      ...missions.map((mission) => {
+      ...missions.map((mission, index) => {
         mission.payloads = mission.payloads.filter((payload) => {
           if (payload !== null) {
             foundNationalities.push(payload.nationality);
@@ -35,6 +38,7 @@ const PayloadCard: React.FC<PayloadCardProps> = ({}: PayloadCardProps) => {
           }
         });
         mission.totalMass = calculateTotalMass(mission);
+        mission.color = MissionColors[index];
         return mission;
       }),
     ];
@@ -51,6 +55,7 @@ const PayloadCard: React.FC<PayloadCardProps> = ({}: PayloadCardProps) => {
             )
           )
         : missionData;
+    setCurrentFilterOption(nation);
     setFilteredMissionData([...missionsByNation]);
   };
 
@@ -61,11 +66,12 @@ const PayloadCard: React.FC<PayloadCardProps> = ({}: PayloadCardProps) => {
   return (
     <div className="overflow-hidden bg-white shadow sm:rounded-lg mx-auto w-2/5 mt-8">
       <div className="px-4 py-5 sm:px-6 flex justify-between">
-        <h3 className="text-lg font-medium leading-6 text-gray-900">
+        <h3 className="text-lg font-bold leading-6 text-gray-900 mt-2">
           Total Payload Per Mission
         </h3>
         <NationalityDropdown
           nationalities={nationalities}
+          currentFilter={currentFilterOption}
           onNationalitySelected={(nation: string) =>
             filterMissionsByNation(nation)
           }
@@ -73,7 +79,7 @@ const PayloadCard: React.FC<PayloadCardProps> = ({}: PayloadCardProps) => {
       </div>
       <div className="border-t border-gray-200">
         <div className="flex justify-around">
-          <div className="w-1/2 p-16 align-middle">
+          <div className="w-2/5 p-16 align-middle">
             <DonutChart missions={filteredMissionData}></DonutChart>
           </div>
           <MissionPayloadList

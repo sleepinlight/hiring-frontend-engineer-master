@@ -12,7 +12,7 @@ export interface DonutChartProps {
 
 const DonutChart: React.FC<DonutChartProps> = (props: DonutChartProps) => {
   const getColors = (): string[] => {
-    return MissionColors.slice(0, props.missions.length);
+    return props.missions.map((m) => m.color || "");
   };
 
   const getData = (): number[] => {
