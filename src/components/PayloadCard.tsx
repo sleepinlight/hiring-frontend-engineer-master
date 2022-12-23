@@ -64,8 +64,8 @@ const PayloadCard: React.FC<PayloadCardProps> = ({}: PayloadCardProps) => {
   }, []);
 
   return (
-    <div className="overflow-hidden bg-white shadow sm:rounded-lg mx-auto w-2/5 mt-8">
-      <div className="px-4 py-5 sm:px-6 flex justify-between">
+    <div className="overflow-hidden bg-white shadow-md sm:rounded-lg mx-auto w-2/5">
+      <div className="px-4 py-5 sm:px-6 flex justify-between border-solid border-gray-100 border-b-4">
         <h3 className="text-lg font-bold leading-6 text-gray-900 mt-2">
           Total Payload Per Mission
         </h3>
@@ -77,7 +77,7 @@ const PayloadCard: React.FC<PayloadCardProps> = ({}: PayloadCardProps) => {
           }
         ></NationalityDropdown>
       </div>
-      <div className="border-t border-gray-200">
+      <div className="">
         <div className="flex justify-around">
           <div className="w-2/5 p-16 align-middle">
             <DonutChart missions={filteredMissionData}></DonutChart>
