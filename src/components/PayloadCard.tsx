@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import payloadData from "../dataset/missions.json";
 import { Mission } from "../shared/interfaces/Mission.interface";
-import { MissionPayload } from "../shared/interfaces/MissionPayload.interface";
 import { MissionColors } from "../shared/utils/colors";
 import DonutChart from "./DonutChart/DonutChart";
 import MissionPayloadList from "./MissionData/MissionPayloadList";
@@ -64,7 +63,7 @@ const PayloadCard: React.FC<PayloadCardProps> = ({}: PayloadCardProps) => {
   }, []);
 
   return (
-    <div className="overflow-hidden bg-white shadow-md sm:rounded-lg mx-auto w-2/5">
+    <div className="overflow-hidden bg-white shadow-md sm:rounded-lg mx-auto w-[615px]">
       <div className="px-4 py-3 sm:px-6 flex justify-between border-solid border-gray-100 border-b-4">
         <h3 className="text-lg font-bold leading-6 text-gray-900 mt-2">
           Total Payload Per Mission
@@ -79,7 +78,7 @@ const PayloadCard: React.FC<PayloadCardProps> = ({}: PayloadCardProps) => {
       </div>
       <div className="">
         <div className="flex justify-around">
-          <div className="w-2/5 p-16 align-middle">
+          <div className="w-2/5 p-8 align-middl m-auto">
             <DonutChart missions={filteredMissionData}></DonutChart>
           </div>
           <MissionPayloadList

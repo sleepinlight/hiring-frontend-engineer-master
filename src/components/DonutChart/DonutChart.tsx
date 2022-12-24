@@ -2,7 +2,6 @@ import React from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import { Mission } from "../../shared/interfaces/Mission.interface";
-import { MissionColors } from "../../shared/utils/colors";
 
 ChartJS.register(ArcElement, Tooltip);
 

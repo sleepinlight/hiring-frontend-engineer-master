@@ -3,7 +3,7 @@ export interface SortArrowProps {
 }
 
 const SortArrow: React.FC<SortArrowProps> = (props: SortArrowProps) => {
-  const directionalString = props.ascending
+  const directionalString = !props.ascending
     ? "M12 4.5v15m0 0l6.75-6.75M12 19.5l-6.75-6.75"
     : "M12 19.5v-15m0 0l-6.75 6.75M12 4.5l6.75 6.75";
 
